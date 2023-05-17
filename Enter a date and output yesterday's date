@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+int days[2][12] = { {31,28,31,30,31,30,31,31,30,31,30,31},{31,29,31,30,31,30,31,31,30,31,30,31} };
+void BeforeDay(int* pyear, int* pmonth, int* pday);
+int isLeap(int year) {
+	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+typedef struct date {
+	int year;
+	int month;
+	int day;
+}DATE;
+int main()
+{
+	DATE time;
+	printf("please input the date of today:");
+	scanf_s("%d-%d-%d", &time.year, &time.month, &time.day);
+	BeforeDay(&time.year, &time.month, &time.day);
+	printf("%d-%d-%d", time.year, time.month, time.day);
+	return 0;
+
+}
+void BeforeDay(int* pyear, int* pmonth, int* pday)
+{
+	if (*pday > 1) {
+		(*pday)--;
+	}
+	else {
+		if (*pmonth > 1) {
+			(*pmonth)--;
+			*pday = days[isLeap(*pyear)][*pmonth - 1];
+		}
+		else {
+			(*pyear)--;
+			*pmonth = 12;
+			*pday = 31;
+		}
+	}
+}
